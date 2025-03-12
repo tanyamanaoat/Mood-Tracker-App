@@ -1,8 +1,11 @@
-import 'moodtracker.dart';
 import 'package:flutter/material.dart';
+import 'moodtracker.dart';
+import 'entries.dart';
 
 class DrawerWidget extends StatelessWidget {
-  const DrawerWidget({super.key});
+  final List<Map<String, dynamic>> pastSubmissions;
+
+  const DrawerWidget({super.key, required this.pastSubmissions});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +33,18 @@ class DrawerWidget extends StatelessWidget {
             title: const Text("Mood Tracker"),
             onTap: () {
               Navigator.pushNamed(context, MoodTrackerForm.routename);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.history),
+            title: const Text("Mood Entries"),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EntriesPage(pastSubmissions: pastSubmissions),
+                ),
+              );
             },
           ),
         ],

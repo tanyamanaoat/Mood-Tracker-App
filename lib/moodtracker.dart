@@ -185,7 +185,7 @@ class _MoodTrackerFormState extends State<MoodTrackerForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: const DrawerWidget(),
+      drawer: DrawerWidget(pastSubmissions: pastSubmissions),
       appBar: AppBar(
         title: const Text("mood tracker"),
       ),

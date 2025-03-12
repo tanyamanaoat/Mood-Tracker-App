@@ -1,7 +1,6 @@
-library;
-
 import 'package:flutter/material.dart';
 import 'moodtracker.dart';
+import 'entries.dart';
 import 'package:google_fonts/google_fonts.dart' as gf;
 
 void main() {
@@ -16,8 +15,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: ThemeData(
         primaryColor: Colors.teal[700],
-        scaffoldBackgroundColor: Color(0xFFDFF5E1),
-        textTheme: gf.GoogleFonts.juaTextTheme(), // Imported font
+        scaffoldBackgroundColor: const Color(0xFFDFF5E1),
+        textTheme: gf.GoogleFonts.juaTextTheme(),
         appBarTheme: AppBarTheme(
           color: Colors.teal[700],
           titleTextStyle: gf.GoogleFonts.jua(
@@ -37,6 +36,9 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      routes: {
+        MoodTrackerForm.routename: (context) => const MoodTrackerForm(),
+      },
       home: const MoodTrackerForm(),
     );
   }
