@@ -29,12 +29,12 @@ class EntriesPage extends StatelessWidget {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Nickname: ${entry['nickname'] ?? 'N/A'}"),
-                        Text("Age: ${entry['age']}"),
-                        Text("Has Exercised: ${entry['hasExercised'] ? 'Yes' : 'No'}"),
-                        Text("Emotion Level: ${entry['emotionLevel']}"),
-                        Text("Weather: ${entry['weather']}"),
-                        Text("Mood: ${entry['mood']}"),
+                        Text("nickname: ${entry['nickname'].toString().isEmpty ? 'n/a' : entry['nickname']}"),
+                        Text("age: ${entry['age']}"),
+                        Text("has exercised: ${entry['hasExercised'] ? 'yes' : 'no'}"),
+                        Text("mood: ${entry['mood']}"),
+                        Text("emotion level: ${entry['emotionLevel']}"),
+                        Text("weather: ${entry['weather']}"),
                       ],
                     ),
                   ),
