@@ -1,7 +1,7 @@
-# Week 4: User Interaction
+# Personal Mood Tracker App
 
 **Name:** Tanya Marinelle G. Manaoat <br/>
-**Section:** CD-1L <br/>
+**Affiliation:** University of the Philippines Los Baños
 
 ## Description
 

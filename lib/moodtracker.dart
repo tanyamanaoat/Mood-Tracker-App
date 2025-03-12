@@ -90,36 +90,52 @@ class _MoodTrackerFormState extends State<MoodTrackerForm> {
 
   // Submits the data to be transferred
   void submitForm() {
-    // Check if name is already in past submissions, using lowercase for case-insensitive comparison
+    // Remove extra spaces from input fields
+    String name = nameController.text.trim();
+    String nickname = nicknameController.text.trim();
+    String ageText = ageController.text.trim();
+
+    // Check if name already exists (case-insensitive)
     bool nameExists = pastSubmissions.any(
-      (submission) => submission['name'].toLowerCase() == nameController.text.toLowerCase(),
+      (submission) => submission['name'].toLowerCase() == name.toLowerCase(),
     );
 
     if (nameExists) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(content: Text("An error occured. Name already exists.")),
+          const SnackBar(content: Text("An error occurred. Name already exists.")),
         );
       return;
     }
 
-    // Check if name is valid (e.g. Tanya Marinelle Manaoat)
-    if (!isValidName(nameController.text)) {
+    // Check if name is valid, accepts letters and whitespaces only
+    if (!isValidName(name)) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(content: Text("An error occured. Name must not contain other characters or numbers.")),
+          const SnackBar(content: Text("An error occurred. Name must not contain other characters or numbers.")),
         );
       return;
     }
 
-    // Check if nickname is valid (e.g. Tanya, Marinelle)
-    if (nicknameController.text.isNotEmpty && !isValidNickname(nicknameController.text)) {
+    // Check if the nickname is valid (only letters), if provided
+    if (nickname.isNotEmpty && !isValidNickname(nickname)) {
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(
-          const SnackBar(content: Text("An error occured. Nickname must not contain other characters or numbers.")),
+          const SnackBar(content: Text("An error occurred. Nickname must not contain other characters or numbers.")),
+        );
+      return;
+    }
+
+    // Check if age is a valid number and greater than 0
+    int? age = int.tryParse(ageText);
+    if (age == null || age <= 0) {
+      ScaffoldMessenger.of(context)
+        ..removeCurrentSnackBar()
+        ..showSnackBar(
+          const SnackBar(content: Text("An error occurred. Age must be a valid number greater than 0.")),
         );
       return;
     }
@@ -127,23 +143,27 @@ class _MoodTrackerFormState extends State<MoodTrackerForm> {
     // Validates the form before submission
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
+
+      // Show success message
       ScaffoldMessenger.of(context)
         ..removeCurrentSnackBar()
         ..showSnackBar(
           const SnackBar(content: Text("Record successfully saved.")),
         );
+
+      // Store form values
       setState(() {
         // Stores new values in submitted variables
-        submittedName = nameController.text;
-        submittedNickname = nicknameController.text.trim();
-        submittedAge = ageController.text;
+        submittedName = name;
+        submittedNickname = nickname;
+        submittedAge = ageText;
         submittedhasExercised = hasExercised;
         submittedemotionLevel = emotionLevel;
         submittedDropdownValue = dropdownValue;
         submittedMood = selectedMood;
-        result = true; // To show the summary
+        result = true; // Show summary
 
-        // Appends map to friendlist
+        // Add new entry to past submissions
         pastSubmissions.add({
           'name': submittedName,
           'nickname': submittedNickname,
@@ -153,11 +173,9 @@ class _MoodTrackerFormState extends State<MoodTrackerForm> {
           'weather': submittedDropdownValue,
           'mood': submittedMood,
         });
-        // Displays summary
-        result = true;
       });
-    } else {
-      // when invalid
+    } else {            
+      // When form is invalid
       setState(() {
         result = false;
       });
